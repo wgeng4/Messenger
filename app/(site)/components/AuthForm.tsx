@@ -59,8 +59,8 @@ const AuthForm = () => {
           {variant == 'REGISTER' && (
             <Input id="name" label="Name" register={register} errors={errors} />
           )}
-          <Input id="email" label="Email address" type="email" register={register} errors={errors} />
-          <Input id="password" label="Password" type="password" register={register} errors={errors} />
+          <Input id="email" label="Email address" type="email" register={register} errors={errors} disabled={isLoading} />
+          <Input id="password" label="Password" type="password" register={register} errors={errors} disabled={isLoading} />
           <div>
             <Button
               disabled={isLoading}
@@ -108,7 +108,7 @@ const AuthForm = () => {
           <div onClick={toggleVariant}
             className="underline cursor-pointer"
           >
-            {variant == 'LOGIN' ? 'Create and account':'Log in'}
+            {variant == 'LOGIN' ? 'Create and account' : 'Log in'}
           </div>
         </div>
       </div>
