@@ -14,19 +14,20 @@ import { useRouter } from "next/navigation";
 type Variant = 'LOGIN' | 'REGISTER';
 
 const AuthForm = () => {
-  const session = useSession();
+  const { data: session, status } = useSession()
   const router = useRouter();
   const [variant, setVariant] = useState<Variant>('LOGIN');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (session?.status == 'authenticated') {
+    if (status === 'authenticated') {
+      console.log(status, session)
       router.push('/users')
     }
-  }, [session?.status, router])
+  }, [status, router])
 
   const toggleVariant = useCallback(() => {
-    if (variant == 'LOGIN') {
+    if (variant === 'LOGIN') {
       setVariant('REGISTER');
     } else {
       setVariant('LOGIN');
@@ -49,14 +50,14 @@ const AuthForm = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    if (variant == 'REGISTER') {
+    if (variant === 'REGISTER') {
       axios.post('/api/register', data)
         .then(() => signIn('credentials', data))
         .catch(() => toast.error('Wrong credentials|Something wrong'))
         .finally(() => setIsLoading(false))
     }
 
-    if (variant == 'LOGIN') {
+    if (variant === 'LOGIN') {
       // NextAuth sign in
       signIn('credentials', {
         ...data,
